@@ -12,6 +12,12 @@ const createEvent = async (req, res) => {
       return res.status(400).json({ message: "title, location, date, capacity and price are required" });
     }
 
+    // Build the public-facing image path from the uploaded file (set by Multer).
+    // Falls back to null when no image is provided — fully backward compatible.
+    const imageUrl = req.file
+      ? `/uploads/events/${req.file.filename}`
+      : null;
+
     const event = await Event.create({
       title,
       description: description || "",
@@ -23,6 +29,7 @@ const createEvent = async (req, res) => {
       totalCapacity: Number(capacity), // track original capacity for progress bar
       price: Number(price),
       category: category || "General",
+      imageUrl,
       status: "active",
       createdBy: req.user.id,
     });

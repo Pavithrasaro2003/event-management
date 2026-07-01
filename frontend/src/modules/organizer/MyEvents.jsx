@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-const gold = '#c9a84c';
+const gold = 'var(--accent)';
 const goldLight = '#f5d270';
 
 const MyEvents = () => {
@@ -38,8 +38,8 @@ const MyEvents = () => {
 
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '50vh', flexDirection: 'column', gap: 16 }}>
-      <div style={{ width: 44, height: 44, borderRadius: '50%', border: `3px solid rgba(201,168,76,0.3)`, borderTopColor: gold, animation: 'spin 0.8s linear infinite' }} />
-      <p style={{ color: '#888' }}>Loading events…</p>
+      <div style={{ width: 44, height: 44, borderRadius: '50%', border: `3px solid rgba(201,168,76,0.3)`, borderTopColor: 'var(--accent)', animation: 'spin 0.8s linear infinite' }} />
+      <p style={{ color: 'var(--muted)' }}>Loading events…</p>
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
@@ -52,15 +52,13 @@ const MyEvents = () => {
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f0f0f" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           </div>
           <div>
-            <h1 style={{ color: goldLight, fontWeight: 800, fontSize: 24, margin: 0 }}>My Events</h1>
-            <p style={{ color: '#666', fontSize: 13, margin: 0 }}>{events.length} event{events.length !== 1 ? 's' : ''} created</p>
+            <h1 style={{ color: 'var(--accent)', fontWeight: 800, fontSize: 24, margin: 0 }}>My Events</h1>
+            <p style={{ color: 'var(--muted)', fontSize: 13, margin: 0 }}>{events.length} event{events.length !== 1 ? 's' : ''} created</p>
           </div>
         </div>
-        <Link to="/organizer/create-event" style={{
+        <Link to="/organizer/create-event" className="btn-gold" style={{
           display: 'flex', alignItems: 'center', gap: 8,
-          padding: '0.6rem 1.25rem', borderRadius: 10,
-          background: 'linear-gradient(90deg,#c9a84c,#f5d270)',
-          color: '#0f0f0f', fontWeight: 700, fontSize: 13, textDecoration: 'none',
+          fontSize: 13, textDecoration: 'none',
         }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Create Event
@@ -68,32 +66,26 @@ const MyEvents = () => {
       </div>
 
       {events.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '4rem 2rem', background: 'rgba(201,168,76,0.04)', border: '1px dashed rgba(201,168,76,0.25)', borderRadius: 18 }}>
-          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.35)" strokeWidth="1.5" style={{ marginBottom: 16 }}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <h4 style={{ color: gold, marginBottom: 8 }}>No events yet</h4>
-          <p style={{ color: '#666', marginBottom: '1.5rem', fontSize: 14 }}>Create your first event to get started.</p>
-          <Link to="/organizer/create-event" style={{ padding: '0.7rem 1.75rem', borderRadius: 10, background: 'linear-gradient(90deg,#c9a84c,#f5d270)', color: '#0f0f0f', fontWeight: 700, textDecoration: 'none' }}>
+        <div style={{ textAlign: 'center', padding: '4rem 2rem', background: 'var(--glass)', border: '1px dashed var(--border)', borderRadius: 18 }}>
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" strokeWidth="1.5" style={{ marginBottom: 16 }}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <h4 style={{ color: 'var(--accent)', marginBottom: 8 }}>No events yet</h4>
+          <p style={{ color: 'var(--muted)', marginBottom: '1.5rem', fontSize: 14 }}>Create your first event to get started.</p>
+          <Link to="/organizer/create-event" className="btn-gold" style={{ textDecoration: 'none', display: 'inline-block' }}>
             Create Event
           </Link>
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(310px,1fr))', gap: '1.25rem' }}>
           {events.map(event => (
-            <div key={event.id} style={{
-              background: 'linear-gradient(135deg,#1a1a2e,#16213e)',
-              border: '1px solid rgba(201,168,76,0.18)',
-              borderRadius: 18, overflow: 'hidden',
-              boxShadow: '0 8px 28px rgba(0,0,0,0.35)',
+            <div key={event.id} className="card-premium" style={{
+              overflow: 'hidden',
               display: 'flex', flexDirection: 'column',
-              transition: 'transform 0.2s, box-shadow 0.2s',
             }}
-              onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 18px 48px rgba(0,0,0,0.5)'; }}
-              onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,0,0,0.35)'; }}
             >
               {/* Header */}
-              <div style={{ background: 'linear-gradient(90deg,rgba(201,168,76,0.16),rgba(201,168,76,0.04))', borderBottom: '1px solid rgba(201,168,76,0.15)', padding: '0.9rem 1.1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ background: 'var(--glass)', borderBottom: '1px solid var(--border)', padding: '0.9rem 1.1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 {event.category && (
-                  <span style={{ fontSize: 10, color: gold, border: `1px solid ${gold}`, borderRadius: 20, padding: '1px 8px', fontWeight: 700, letterSpacing: '0.5px' }}>
+                  <span style={{ fontSize: 10, color: 'var(--accent)', border: `1px solid var(--accent)`, borderRadius: 20, padding: '1px 8px', fontWeight: 700, letterSpacing: '0.5px' }}>
                     {event.category.toUpperCase()}
                   </span>
                 )}
@@ -103,33 +95,33 @@ const MyEvents = () => {
               </div>
 
               <div style={{ padding: '1.1rem', flex: 1 }}>
-                <h4 style={{ color: goldLight, fontWeight: 700, fontSize: 15, margin: '0 0 8px' }}>{event.title}</h4>
+                <h4 style={{ color: 'var(--text)', fontWeight: 700, fontSize: 15, margin: '0 0 8px' }}>{event.title}</h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 5, marginBottom: 10 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, color: '#777', fontSize: 12 }}>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, color: 'var(--muted)', fontSize: 12 }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                     {event.date} at {event.startTime}
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, color: '#777', fontSize: 12 }}>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, color: 'var(--muted)', fontSize: 12 }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     {event.location}
                   </div>
                 </div>
-                <p style={{ color: '#666', fontSize: 12, lineHeight: 1.6, margin: '0 0 12px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                <p style={{ color: 'var(--muted)', fontSize: 12, lineHeight: 1.6, margin: '0 0 12px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                   {event.description}
                 </p>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.75rem', borderTop: '1px solid rgba(201,168,76,0.1)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.75rem', borderTop: '1px solid var(--border)' }}>
                   <div>
-                    <div style={{ color: goldLight, fontWeight: 800, fontSize: 18 }}>₹{event.price}</div>
-                    <div style={{ color: '#555', fontSize: 11 }}>Capacity: {event.capacity}</div>
+                    <div style={{ color: 'var(--accent)', fontWeight: 800, fontSize: 18 }}>₹{event.price}</div>
+                    <div style={{ color: 'var(--muted)', fontSize: 11 }}>Capacity: {event.capacity}</div>
                   </div>
-                  <Link to={`/organizer/events/${event.id}/attendees`} style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 12px', borderRadius: 8, background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.25)', color: gold, fontSize: 12, fontWeight: 600, textDecoration: 'none' }}>
+                  <Link to={`/organizer/events/${event.id}/attendees`} style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 12px', borderRadius: 8, background: 'var(--glass)', border: '1px solid var(--border)', color: 'var(--accent)', fontSize: 12, fontWeight: 600, textDecoration: 'none' }}>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
                     Attendees
                   </Link>
                 </div>
               </div>
 
-              <div style={{ padding: '0.75rem 1.1rem', borderTop: '1px solid rgba(201,168,76,0.1)', display: 'flex', justifyContent: 'flex-end' }}>
+              <div style={{ padding: '0.75rem 1.1rem', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'flex-end' }}>
                 <button
                   onClick={() => handleDelete(event.id)}
                   style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 14px', fontSize: 12, borderRadius: 7, border: '1px solid rgba(231,76,60,0.35)', background: 'rgba(231,76,60,0.08)', color: '#e74c3c', cursor: 'pointer', fontWeight: 600 }}

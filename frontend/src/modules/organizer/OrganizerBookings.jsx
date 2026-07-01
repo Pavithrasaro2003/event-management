@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { getOrganizerAllBookings } from '../../services/booking.service';
 
-const gold = '#c9a84c';
+const gold = 'var(--accent)';
 const goldLight = '#f5d270';
 
 const fmtCurrency = (n) =>
@@ -73,24 +73,23 @@ const OrganizerBookings = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)', padding: '2rem 1.5rem', fontFamily: "'Inter','Segoe UI',sans-serif" }}>
+    <div style={{ minHeight: '100vh', padding: '2rem 1.5rem', fontFamily: "'Inter','Segoe UI',sans-serif" }}>
       <div style={{ maxWidth: 1300, margin: '0 auto' }}>
 
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.75rem' }}>
           <div>
-            <Link to="/organizer/dashboard" style={{ color: gold, fontSize: 13, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4, marginBottom: 6 }}>
+            <Link to="/organizer/dashboard" style={{ color: 'var(--accent)', fontSize: 13, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4, marginBottom: 6 }}>
               ← Back to Dashboard
             </Link>
-            <h2 style={{ color: goldLight, fontWeight: 800, margin: 0 }}>📑 All Bookings</h2>
-            <p style={{ color: '#888', margin: '4px 0 0', fontSize: 14 }}>All customer bookings for your events</p>
+            <h2 style={{ color: 'var(--text)', fontWeight: 800, margin: 0 }}>📑 All Bookings</h2>
+            <p style={{ color: 'var(--muted)', margin: '4px 0 0', fontSize: 14 }}>All customer bookings for your events</p>
           </div>
           <button
             onClick={exportCSV}
             disabled={bookings.length === 0}
+            className="btn-outline-gold"
             style={{
-              padding: '0.55rem 1.2rem', borderRadius: 10, border: `1px solid ${gold}`,
-              background: 'rgba(201,168,76,0.1)', color: gold, cursor: 'pointer',
               fontWeight: 700, fontSize: 14, display: 'flex', alignItems: 'center', gap: 8,
             }}
           >
@@ -104,17 +103,16 @@ const OrganizerBookings = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by customer name or email…"
-            style={{
-              flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(201,168,76,0.3)',
-              borderRadius: 10, padding: '0.55rem 1rem', color: '#fff', fontSize: 14, outline: 'none',
-            }}
+            className="input-premium"
+            style={{ flex: 1 }}
           />
-          <button type="submit" style={{ padding: '0.55rem 1.4rem', borderRadius: 10, border: 'none', background: `linear-gradient(90deg,${gold},${goldLight})`, color: '#0f0f0f', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>
+          <button type="submit" className="btn-gold" style={{ fontSize: 14 }}>
             Search
           </button>
           {search && (
             <button type="button" onClick={() => { setSearch(''); fetchBookings(1, ''); }}
-              style={{ padding: '0.55rem 1rem', borderRadius: 10, border: '1px solid rgba(255,255,255,0.15)', background: 'transparent', color: '#aaa', cursor: 'pointer' }}>
+              className="btn-outline-gold"
+              style={{ padding: '0.55rem 1rem' }}>
               Clear
             </button>
           )}
@@ -122,14 +120,14 @@ const OrganizerBookings = () => {
 
         {error && <div className="alert alert-danger" style={{ borderRadius: 10 }}>{error}</div>}
 
-        {/* Table */}
-        <div style={{ background: 'linear-gradient(135deg,#1e1e3a,#252550)', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 16, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}>
+        {/* Table Wrapper */}
+        <div className="card-premium" style={{ overflow: 'hidden' }}>
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <table className="table-modern">
               <thead>
-                <tr style={{ background: 'rgba(201,168,76,0.08)' }}>
+                <tr>
                   {['#','Customer','Email','Phone','Location','Event','Tickets','Amount','Payment','Date',''].map((h) => (
-                    <th key={h} style={{ padding: '12px 14px', color: gold, fontSize: 11, fontWeight: 700, textAlign: 'left', letterSpacing: '0.5px', whiteSpace: 'nowrap', borderBottom: '1px solid rgba(201,168,76,0.15)' }}>
+                    <th key={h}>
                       {h}
                     </th>
                   ))}
@@ -138,19 +136,15 @@ const OrganizerBookings = () => {
               <tbody>
                 {bookings.length === 0 && !loading ? (
                   <tr>
-                    <td colSpan={11} style={{ textAlign: 'center', padding: '3rem', color: '#666' }}>
+                    <td colSpan={11} style={{ textAlign: 'center', padding: '3rem', color: 'var(--muted)' }}>
                       <div style={{ fontSize: 40, marginBottom: 8 }}>📭</div>
                       No bookings found
                     </td>
                   </tr>
                 ) : (
                   bookings.map((b) => (
-                    <tr key={b.id}
-                      style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', transition: 'background 0.15s' }}
-                      onMouseOver={(e) => (e.currentTarget.style.background = 'rgba(201,168,76,0.05)')}
-                      onMouseOut={(e) => (e.currentTarget.style.background = 'transparent')}
-                    >
-                      <td style={td()}><span style={{ color: gold, fontWeight: 700 }}>#{b.id}</span></td>
+                    <tr key={b.id}>
+                      <td style={td()}><span style={{ color: 'var(--accent)', fontWeight: 700 }}>#{b.id}</span></td>
                       <td style={td(true)}>{b.customerName || '—'}</td>
                       <td style={td()}>{b.customerEmail || '—'}</td>
                       <td style={td()}>{b.customerPhone || '—'}</td>
@@ -159,13 +153,13 @@ const OrganizerBookings = () => {
                       </td>
                       <td style={td(true)}>{b.Event?.title || '—'}</td>
                       <td style={{ ...td(), textAlign: 'center' }}>{b.ticketCount}</td>
-                      <td style={{ ...td(), color: goldLight, fontWeight: 700 }}>{fmtCurrency(b.totalAmount)}</td>
+                      <td style={{ ...td(), color: 'var(--accent)', fontWeight: 700 }}>{fmtCurrency(b.totalAmount)}</td>
                       <td style={td()}><PayBadge status={b.paymentStatus} /></td>
                       <td style={td()}>{fmtDate(b.createdAt)}</td>
                       <td style={td()}>
                         <Link
                           to={`/organizer/events/${b.Event?.id}/attendees`}
-                          style={{ fontSize: 12, color: gold, textDecoration: 'none', border: `1px solid rgba(201,168,76,0.3)`, borderRadius: 6, padding: '3px 10px', whiteSpace: 'nowrap' }}
+                          style={{ fontSize: 12, color: 'var(--accent)', textDecoration: 'none', border: `1px solid var(--border)`, borderRadius: 6, padding: '3px 10px', whiteSpace: 'nowrap' }}
                         >
                           View Event
                         </Link>
@@ -181,7 +175,7 @@ const OrganizerBookings = () => {
           {loading && (
             <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: 12 }}>
               {[1,2,3,4,5].map((i) => (
-                <div key={i} style={{ height: 42, background: 'rgba(255,255,255,0.04)', borderRadius: 8, animation: 'pulse 1.5s infinite' }} />
+                <div key={i} style={{ height: 42, background: 'var(--glass)', borderRadius: 8, animation: 'pulse 1.5s infinite' }} />
               ))}
             </div>
           )}
@@ -192,7 +186,8 @@ const OrganizerBookings = () => {
           <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
             <button
               onClick={() => fetchBookings(page + 1)}
-              style={{ padding: '0.6rem 2rem', borderRadius: 10, border: `1px solid ${gold}`, background: 'rgba(201,168,76,0.1)', color: gold, cursor: 'pointer', fontWeight: 700 }}
+              className="btn-outline-gold"
+              style={{ padding: '0.6rem 2rem' }}
             >
               Load More
             </button>
@@ -205,8 +200,7 @@ const OrganizerBookings = () => {
 };
 
 const td = (bold) => ({
-  padding: '11px 14px',
-  color: bold ? '#fff' : '#aaa',
+  color: bold ? 'var(--text)' : 'var(--muted)',
   fontSize: 13,
   fontWeight: bold ? 600 : 400,
   whiteSpace: 'nowrap',

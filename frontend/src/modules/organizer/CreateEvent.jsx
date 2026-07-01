@@ -22,8 +22,10 @@ const CreateEvent = () => {
     title: '', description: '', category: '',
     date: '', startTime: '', endTime: '',
     location: '', capacity: '', price: '',
-    imageUrl: '',
   });
+  const [imageFile, setImageFile] = useState(null);     // holds the File object
+  const [imagePreview, setImagePreview] = useState(''); // local object URL for preview
+  const [fileError, setFileError] = useState('');       // client-side validation message
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
@@ -33,11 +35,42 @@ const CreateEvent = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // ── File picker handler ───────────────────────────────────────────────────
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFileError('');
+    setImageFile(null);
+    setImagePreview('');
+
+    if (!file) return;
+
+    const allowed = ['image/jpeg', 'image/jpg', 'image/png'];
+    if (!allowed.includes(file.type)) {
+      setFileError('Invalid file type. Only JPG, JPEG, and PNG images are allowed.');
+      e.target.value = '';
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setFileError('File is too large. Maximum allowed size is 5 MB.');
+      e.target.value = '';
+      return;
+    }
+
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (fileError) return; // block submit if client validation failed
     setLoading(true);
     try {
-      await createEvent(formData);
+      // Build multipart/form-data — Multer on the backend expects this
+      const payload = new FormData();
+      Object.entries(formData).forEach(([key, val]) => payload.append(key, val));
+      if (imageFile) payload.append('image', imageFile);
+
+      await createEvent(payload);
       setSuccess('Event created successfully!');
       setTimeout(() => navigate('/organizer/dashboard'), 2000);
     } catch (err) {
@@ -80,8 +113,63 @@ const CreateEvent = () => {
           </div>
 
           <div>
-            <label style={labelSt}><Icons.Image /> Image URL</label>
-            <input className="input-premium" type="url" name="imageUrl" value={formData.imageUrl} onChange={handleChange} placeholder="https://example.com/image.jpg" style={inputSt} />
+            <label style={labelSt}><Icons.Image /> Event Poster (JPG / JPEG / PNG, max 5 MB)</label>
+
+            {/* Hidden native file input triggered by the styled button */}
+            <input
+              id="eventImageInput"
+              type="file"
+              accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+            />
+
+            <div
+              onClick={() => document.getElementById('eventImageInput').click()}
+              style={{
+                border: `2px dashed ${fileError ? '#e74c3c' : 'var(--border)'}`,
+                borderRadius: 10,
+                padding: '1.25rem',
+                textAlign: 'center',
+                cursor: 'pointer',
+                background: 'var(--card-bg, #111)',
+                transition: 'border-color 0.2s',
+                minHeight: 100,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                gap: 8,
+              }}
+              onMouseOver={e => e.currentTarget.style.borderColor = 'var(--accent)'}
+              onMouseOut={e => e.currentTarget.style.borderColor = fileError ? '#e74c3c' : 'var(--border)'}
+            >
+              {imagePreview ? (
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  style={{ maxHeight: 140, maxWidth: '100%', borderRadius: 8, objectFit: 'cover' }}
+                />
+              ) : (
+                <>
+                  <Icons.Image />
+                  <span style={{ color: 'var(--muted)', fontSize: 13 }}>
+                    Click to choose an image or drag one here
+                  </span>
+                </>
+              )}
+            </div>
+
+            {imageFile && !fileError && (
+              <p style={{ color: '#2ecc71', fontSize: 12, marginTop: 6, margin: '6px 0 0' }}>
+                ✓ {imageFile.name} ({(imageFile.size / 1024).toFixed(0)} KB)
+              </p>
+            )}
+            {fileError && (
+              <p style={{ color: '#e74c3c', fontSize: 12, marginTop: 6, margin: '6px 0 0' }}>
+                ✕ {fileError}
+              </p>
+            )}
           </div>
 
           <div style={{ gridColumn: '1 / -1' }}>

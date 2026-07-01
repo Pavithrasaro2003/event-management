@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
 
 const { connectDB } = require("./config/db");
@@ -17,15 +18,20 @@ const organizerRoutes = require("./modules/organizer/organizer.routes");
 const attenderRoutes = require("./modules/attender/attender.routes");
 const eventRoutes = require("./modules/event/event.routes");
 const bookingRoutes = require("./modules/booking/booking.routes");
+const paymentRoutes = require("./modules/payment/payment.routes");
 
 app.use(cors());
 app.use(express.json());
+
+// Serve uploaded event images publicly at /uploads/events/<filename>
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/admin", adminRoutes);
 app.use("/organizer", organizerRoutes);
 app.use("/attender", attenderRoutes);
 app.use("/event", eventRoutes);
 app.use("/booking", bookingRoutes);
+app.use("/payment", paymentRoutes);
 
 // test route
 app.get("/", (req, res) => {

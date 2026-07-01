@@ -55,7 +55,7 @@ const Login = () => {
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <div style={{
             width: 64, height: 64, borderRadius: 18, margin: '0 auto 1.25rem',
-            background: `linear-gradient(135deg, \${gold}, #f5d270)`,
+            background: `linear-gradient(135deg, ${gold}, #f5d270)`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 8px 32px rgba(212,175,55,0.35)',
           }}>

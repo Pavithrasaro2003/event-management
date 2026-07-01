@@ -10,8 +10,12 @@ export const getEventById = async (id) => {
   return response.data;
 };
 
-export const createEvent = async (eventData) => {
-  const response = await api.post('/event/create', eventData);
+export const createEvent = async (formData) => {
+  // formData is a FormData object built by the caller (includes the image file).
+  // We must set Content-Type to multipart/form-data so Multer can parse the file.
+  const response = await api.post('/event/create', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
   return response.data;
 };
 

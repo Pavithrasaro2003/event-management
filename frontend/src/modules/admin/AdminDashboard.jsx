@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 
-const gold = '#c9a84c';
+const gold = 'var(--accent)';
 const goldLight = '#f5d270';
 
 const statCards = [
@@ -33,8 +33,8 @@ const AdminDashboard = () => {
 
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '50vh', flexDirection: 'column', gap: 16 }}>
-      <div style={{ width: 44, height: 44, borderRadius: '50%', border: `3px solid rgba(201,168,76,0.3)`, borderTopColor: gold, animation: 'spin 0.8s linear infinite' }} />
-      <p style={{ color: '#888' }}>Loading dashboard…</p>
+      <div style={{ width: 44, height: 44, borderRadius: '50%', border: `3px solid rgba(201,168,76,0.3)`, borderTopColor: 'var(--accent)', animation: 'spin 0.8s linear infinite' }} />
+      <p style={{ color: 'var(--muted)' }}>Loading dashboard…</p>
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
@@ -53,29 +53,30 @@ const AdminDashboard = () => {
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f0f0f" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
           </div>
           <div>
-            <h1 style={{ color: goldLight, fontWeight: 800, fontSize: 24, margin: 0 }}>Admin Dashboard</h1>
-            <p style={{ color: '#666', fontSize: 13, margin: 0 }}>Platform-wide analytics and management</p>
+            <h1 style={{ color: 'var(--accent)', fontWeight: 800, fontSize: 24, margin: 0 }}>Admin Dashboard</h1>
+            <p style={{ color: 'var(--muted)', fontSize: 13, margin: 0 }}>Platform-wide analytics and management</p>
           </div>
+        </div>
+        <div style={{ marginTop: '1.5rem' }}>
+          <a href="/admin/payments" className="btn-gold" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none', padding: '0.8rem 1.5rem', borderRadius: 12 }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Verify Payments
+          </a>
         </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: '1rem' }}>
         {statCards.map((sc) => (
-          <div key={sc.key} style={{
-            background: 'linear-gradient(135deg,#1a1a2e,#16213e)',
-            border: `1px solid ${sc.color}33`,
-            borderRadius: 16, padding: '1.5rem',
-            boxShadow: '0 8px 28px rgba(0,0,0,0.35)',
-            transition: 'transform 0.2s, box-shadow 0.2s',
+          <div key={sc.key} className="card-premium" style={{
+            padding: '1.5rem',
             position: 'relative', overflow: 'hidden',
+            border: `1px solid var(--border)`,
           }}
-            onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 18px 40px rgba(0,0,0,0.5)'; }}
-            onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,0,0,0.35)'; }}
           >
             <div style={{ position: 'absolute', top: -20, right: -20, width: 80, height: 80, borderRadius: '50%', background: `radial-gradient(circle,${sc.color}22 0%,transparent 70%)`, pointerEvents: 'none' }} />
             <div style={{ marginBottom: '0.75rem' }}>{sc.icon}</div>
-            <div style={{ color: '#fff', fontWeight: 800, fontSize: 30, lineHeight: 1 }}>{stats?.[sc.key] ?? 0}</div>
-            <div style={{ color: '#666', fontSize: 12, marginTop: 4 }}>{sc.label}</div>
+            <div style={{ color: 'var(--text)', fontWeight: 800, fontSize: 30, lineHeight: 1 }}>{stats?.[sc.key] ?? 0}</div>
+            <div style={{ color: 'var(--muted)', fontSize: 12, marginTop: 4 }}>{sc.label}</div>
           </div>
         ))}
       </div>

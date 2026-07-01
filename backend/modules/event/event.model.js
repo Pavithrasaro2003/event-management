@@ -55,6 +55,11 @@ const Event = sequelize.define("Event", {
     type: DataTypes.STRING,
     defaultValue: "General",
   },
+  imageUrl: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: null,
+  },
   createdBy: {
     type: DataTypes.INTEGER,
     allowNull: false,

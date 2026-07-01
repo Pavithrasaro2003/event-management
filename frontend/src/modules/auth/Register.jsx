@@ -28,7 +28,7 @@ const Register = () => {
     setLoading(true);
     setError('');
     try {
-      await axios.post('http://localhost:5000/admin/create-user', { name, email, password, role });
+      await axios.post('http://localhost:5000/attender/register', { name, email, password });
       setSuccess('Registration successful! Redirecting to login...');
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
@@ -58,7 +58,7 @@ const Register = () => {
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <div style={{
             width: 64, height: 64, borderRadius: 18, margin: '0 auto 1.25rem',
-            background: `linear-gradient(135deg, \${gold}, #f5d270)`,
+            background: `linear-gradient(135deg, ${gold}, #f5d270)`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 8px 32px rgba(212,175,55,0.35)',
           }}>
@@ -85,23 +85,7 @@ const Register = () => {
               <input className="input-premium" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Create a password" required style={inputSt} />
             </Field>
 
-            {/* Role selection */}
-            <div style={{ marginBottom: '2rem' }}>
-              <label style={labelSt}>Select Your Role</label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '0.75rem' }}>
-                {roles.map(r => (
-                  <div key={r.value} onClick={() => setRole(r.value)} style={{
-                    padding: '0.85rem 0.5rem', borderRadius: 10, cursor: 'pointer', textAlign: 'center',
-                    border: `1px solid \${role === r.value ? gold : 'var(--border)'}`,
-                    background: role === r.value ? 'var(--glass)' : 'transparent',
-                    transition: 'all 0.2s',
-                  }}>
-                    <div style={{ color: role === r.value ? goldLight : 'var(--text)', fontWeight: 700, fontSize: 12 }}>{r.label}</div>
-                    <div style={{ color: 'var(--muted)', fontSize: 10, marginTop: 4 }}>{r.desc}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            {/* Role selection removed, default is 'attender' */}
 
             <button type="submit" disabled={loading} className="btn-gold" style={{
               width: '100%', padding: '0.85rem', fontSize: 15,
@@ -130,7 +114,7 @@ const Register = () => {
 const Alert = ({ type, msg }) => (
   <div style={{
     background: type === 'error' ? 'rgba(231,76,60,0.1)' : 'rgba(46,204,113,0.1)',
-    border: `1px solid \${type === 'error' ? 'rgba(231,76,60,0.3)' : 'rgba(46,204,113,0.3)'}`,
+    border: `1px solid ${type === 'error' ? 'rgba(231,76,60,0.3)' : 'rgba(46,204,113,0.3)'}`,
     borderRadius: 10, padding: '0.75rem 1rem', marginBottom: '1.5rem',
     color: type === 'error' ? '#e74c3c' : '#2ecc71', fontSize: 13,
   }}>{msg}</div>

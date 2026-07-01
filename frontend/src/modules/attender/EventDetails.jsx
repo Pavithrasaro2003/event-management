@@ -17,6 +17,47 @@ const Icons = {
   AlertCircle: () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>,
 };
 
+const getEventImage = (title) => {
+  if (!title) return 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&q=80&w=1200';
+  const t = title.toLowerCase();
+  
+  if (t.includes('yuvan')) {
+    return 'https://images.unsplash.com/photo-1484755560693-a4074577af3a?auto=format&fit=crop&q=80&w=1200';
+  }
+  if (t.includes('anirudh') || t.includes('aniruth')) {
+    return 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=1200';
+  }
+  if (t.includes('hiphop') || t.includes('hip hop')) {
+    return 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=1200';
+  }
+  if (t.includes('rahman') || t.includes('a.r. rahman')) {
+    return 'https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&q=80&w=1200';
+  }
+  if (t.includes('vijay antony') || t.includes('vijay')) {
+    return 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&q=80&w=1200';
+  }
+  if (t.includes('comedy')) {
+    return 'https://images.unsplash.com/photo-1585699324551-f6c309eedeca?auto=format&fit=crop&q=80&w=1200';
+  }
+  if (t.includes('ipl') || t.includes('cricket') || t.includes('watch party')) {
+    return 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=1200';
+  }
+  if (t.includes('marriage') || t.includes('wedding')) {
+    return 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=1200';
+  }
+  if (t.includes('birthday')) {
+    return 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=1200';
+  }
+  if (t.includes('music') || t.includes('concert') || t.includes('live')) {
+    return 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&q=80&w=1200';
+  }
+  if (t.includes('party')) {
+    return 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=1200';
+  }
+  
+  return 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=1200';
+};
+
 const EventDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -39,10 +80,10 @@ const EventDetails = () => {
     fetchEvent();
   }, [id]);
 
-  const handleBookingSuccess = () => {
+  const handleBookingSuccess = (booking) => {
     setShowModal(false);
-    setMessage('Booking successful! Redirecting to your bookings...');
-    setTimeout(() => navigate('/attender/bookings'), 2500);
+    setMessage('Booking successful! Redirecting to payment...');
+    setTimeout(() => navigate(`/attender/payment/${booking.id}`), 1000);
   };
 
   if (loading) return (
@@ -67,7 +108,7 @@ const EventDetails = () => {
 
       <div className="card-premium fade-in" style={{ overflow: 'hidden', padding: 0 }}>
         {/* Large Event Image */}
-        <div style={{ height: 320, background: 'var(--border)', backgroundImage: `url(${event.imageUrl || 'https://via.placeholder.com/860x400/1a1a1a/D4AF37?text=Event'})`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
+        <div style={{ height: 320, background: 'var(--border)', backgroundImage: `url(${event.imageUrl || (event.title.toLowerCase().includes('birthday') ? 'https://images.unsplash.com/photo-1530103862676-de8892bf30ef?auto=format&fit=crop&q=80&w=1200' : event.title.toLowerCase().includes('marriage') ? 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=1200' : 'https://via.placeholder.com/860x400/1a1a1a/D4AF37?text=Event')})`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%)' }} />
           
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem' }}>

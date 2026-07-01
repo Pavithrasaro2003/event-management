@@ -24,7 +24,7 @@ const PayBadge = ({ status }) => {
   const c = colors[status] || '#888';
   return (
     <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
-      border: `1px solid \${c}`, color: c, background: `\${c}22`, whiteSpace: 'nowrap' }}>
+      border: `1px solid ${c}`, color: c, background: `${c}22`, whiteSpace: 'nowrap' }}>
       {(status || 'pending').toUpperCase()}
     </span>
   );
@@ -69,10 +69,10 @@ const EventAttendees = () => {
       b.customerCity, b.customerState, b.customerCountry,
       b.ticketCount, b.totalAmount, b.paymentStatus, fmtDate(b.createdAt),
     ]);
-    const csv = [headers, ...rows].map((r) => r.map((v) => `"\${v ?? ''}"`).join(',')).join('\\n');
+    const csv = [headers, ...rows].map((r) => r.map((v) => `"${v ?? ''}"`).join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = `event-\${eventId}-attendees.csv`; a.click();
+    const a = document.createElement('a'); a.href = url; a.download = `event-${eventId}-attendees.csv`; a.click();
     URL.revokeObjectURL(url);
   };
 

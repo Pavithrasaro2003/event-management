@@ -2,17 +2,31 @@ const User = require("../admin/admin.model");
 const Event = require("../event/event.model");
 const Booking = require("../booking/booking.model");
 const jwt = require('jsonwebtoken');
+const { sendWelcomeEmail } = require("../../utils/email.service");
 
+// CREATE USER (temporary for testing, maybe update to specific roles or just general)
 // CREATE USER (temporary for testing, maybe update to specific roles or just general)
 const createUser = async (req, res) => {
   try {
     const user = await User.create(req.body);
+
+    // Send welcome email ONLY after successful organizer creation.
+    // Email failures must NOT stop organizer creation – isolated in its own try/catch.
+    if (user.role === 'organizer') {
+      try {
+        await sendWelcomeEmail(user.email, user.name, req.body.password);
+      } catch (emailError) {
+        console.error('Failed to send organizer welcome email:', emailError);
+      }
+    }
+
     res.status(201).json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
+// Login controller
 // Login controller
 const loginUser = async (req, res) => {
   try {

@@ -188,8 +188,8 @@ const BookingFormModal = ({ event, onClose, onSuccess }) => {
     try {
       const result = await createBooking({ ...form, eventId: event.id, ticketCount: Number(form.ticketCount) });
       const booking = result.booking || result;
-      const fullBooking = { ...booking, customerName: form.customerName, customerEmail: form.customerEmail, customerPhone: form.customerPhone, customerCity: form.customerCity, customerState: form.customerState, customerCountry: form.customerCountry, ticketCount: Number(form.ticketCount), totalAmount: Number(form.ticketCount) * event.price };
-      setSuccessBooking(fullBooking);
+      // Skip success card, just redirect to payment page via onSuccess
+      onSuccess(booking);
     } catch (err) {
       setApiError(err.response?.data?.message || 'Booking failed. Please try again.');
     } finally {
@@ -283,13 +283,13 @@ const BookingFormModal = ({ event, onClose, onSuccess }) => {
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
                 <Field label="Full Name *" error={errors.customerName}>
-                  <input className="input-premium" name="customerName" value={form.customerName} onChange={handle} placeholder="John Doe" style={inputSt(errors.customerName)} />
+                  <input className="input-premium" name="customerName" value={form.customerName} onChange={handle} placeholder="" style={inputSt(errors.customerName)} />
                 </Field>
                 <Field label="Email Address *" error={errors.customerEmail}>
-                  <input className="input-premium" name="customerEmail" type="email" value={form.customerEmail} onChange={handle} placeholder="john@example.com" style={inputSt(errors.customerEmail)} />
+                  <input className="input-premium" name="customerEmail" type="email" value={form.customerEmail} onChange={handle} placeholder="" style={inputSt(errors.customerEmail)} />
                 </Field>
                 <Field label="Mobile Number *" error={errors.customerPhone}>
-                  <input className="input-premium" name="customerPhone" value={form.customerPhone} onChange={handle} placeholder="+91 9876543210" style={inputSt(errors.customerPhone)} />
+                  <input className="input-premium" name="customerPhone" value={form.customerPhone} onChange={handle} placeholder="" style={inputSt(errors.customerPhone)} />
                 </Field>
                 <Field label="Number of Tickets *" error={errors.ticketCount}>
                   <input className="input-premium" name="ticketCount" type="number" min={1} max={event.capacity} value={form.ticketCount} onChange={handle} style={inputSt(errors.ticketCount)} />
@@ -297,13 +297,13 @@ const BookingFormModal = ({ event, onClose, onSuccess }) => {
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
-                <Field label="City"><input className="input-premium" name="customerCity" value={form.customerCity} onChange={handle} placeholder="Mumbai" style={inputSt()} /></Field>
-                <Field label="State"><input className="input-premium" name="customerState" value={form.customerState} onChange={handle} placeholder="Maharashtra" style={inputSt()} /></Field>
-                <Field label="Country"><input className="input-premium" name="customerCountry" value={form.customerCountry} onChange={handle} placeholder="India" style={inputSt()} /></Field>
+                <Field label="City"><input className="input-premium" name="customerCity" value={form.customerCity} onChange={handle} placeholder="" style={inputSt()} /></Field>
+                <Field label="State"><input className="input-premium" name="customerState" value={form.customerState} onChange={handle} placeholder="" style={inputSt()} /></Field>
+                <Field label="Country"><input className="input-premium" name="customerCountry" value={form.customerCountry} onChange={handle} placeholder="" style={inputSt()} /></Field>
               </div>
 
               <div style={{ marginBottom: '1rem' }}>
-                <Field label="Company (optional)"><input className="input-premium" name="company" value={form.company} onChange={handle} placeholder="Acme Corp" style={inputSt()} /></Field>
+                <Field label="Company (optional)"><input className="input-premium" name="company" value={form.company} onChange={handle} placeholder="" style={inputSt()} /></Field>
               </div>
               <div style={{ marginBottom: '1.5rem' }}>
                 <Field label="Special Notes (optional)">
