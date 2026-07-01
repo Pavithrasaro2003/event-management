@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: event-ticket-frontend
+    env: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+
+  - type: web
+    name: event-ticket-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
