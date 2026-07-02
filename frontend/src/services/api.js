@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://expense-tracker-pw8j.onrender.com', // Updated to production backend URL
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000',
 });
 
 // Interceptor to add JWT token to every request

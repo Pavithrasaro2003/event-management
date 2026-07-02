@@ -24,7 +24,7 @@ const offerTickets = [
 // The backend stores uploaded paths as relative strings, e.g. /uploads/events/file.jpg
 // These must be prefixed with the Express base URL so the browser fetches from
 // port 5000 (Express) instead of port 5173 (Vite), where the file does not exist.
-const BACKEND_URL = 'https://expense-tracker-pw8j.onrender.com';
+const BACKEND_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const resolveImageUrl = (imageUrl, title) => {
   if (imageUrl && imageUrl.trim() !== '') {

@@ -28,7 +28,8 @@ const Register = () => {
     setLoading(true);
     setError('');
     try {
-      await axios.post('https://expense-tracker-pw8j.onrender.com/attender/register', { name, email, password });
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      await axios.post(`${apiUrl}/attender/register`, { name, email, password });
       setSuccess('Registration successful! Redirecting to login...');
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
