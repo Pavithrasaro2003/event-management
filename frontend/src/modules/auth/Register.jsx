@@ -28,7 +28,7 @@ const Register = () => {
     setLoading(true);
     setError('');
     try {
-      await axios.post('http://localhost:5000/attender/register', { name, email, password });
+      await axios.post('https://expense-tracker-pw8j.onrender.com/attender/register', { name, email, password });
       setSuccess('Registration successful! Redirecting to login...');
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
