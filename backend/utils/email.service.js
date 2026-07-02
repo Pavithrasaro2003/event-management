@@ -24,7 +24,8 @@ const sendWelcomeEmail = async (organizerEmail, name, password) => {
       return;
     }
 
-    const loginLink = "http://localhost:3000/login";
+    const frontendUrl = process.env.FRONTEND_URL || "https://event-management-sigma-ruddy.vercel.app";
+    const loginLink = `${frontendUrl.replace(/\/$/, '')}/login`;
     const mailOptions = {
       from: `"EventPro Team" <${process.env.EMAIL_USER}>`,
       to: organizerEmail,
