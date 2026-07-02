@@ -8,14 +8,18 @@ const seedEvents = async () => {
     await sequelize.authenticate();
     console.log('DB connected.');
 
-    // Find any organizer or user to assign events to
-    let user = await User.findOne({ where: { role: 'organizer' } });
-    if (!user) {
-      user = await User.findOne();
+    // Create default Admin if not exists
+    let admin = await User.findOne({ where: { email: 'admin@gmail.com' } });
+    if (!admin) {
+      console.log('Creating Admin user...');
+      admin = await User.create({ name: 'Admin', email: 'admin@gmail.com', password: 'admin123', role: 'admin' });
     }
+
+    // Create default Organizer if not exists
+    let user = await User.findOne({ where: { email: 'organizer@gmail.com' } });
     if (!user) {
-      console.log('No users found. Creating a dummy organizer...');
-      user = await User.create({ name: 'Admin Organizer', email: 'admin@eventpro.com', password: 'password', role: 'organizer' });
+      console.log('Creating Organizer user...');
+      user = await User.create({ name: 'Event Organizer', email: 'organizer@gmail.com', password: 'organizer123', role: 'organizer' });
     }
 
     const sampleEvents = [
