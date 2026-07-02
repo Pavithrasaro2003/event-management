@@ -1,4 +1,4 @@
-const User = require("../admin/admin.model");
+const User = require("./admin.model");
 const Event = require("../event/event.model");
 const Booking = require("../booking/booking.model");
 const jwt = require('jsonwebtoken');
