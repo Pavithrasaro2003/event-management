@@ -12,7 +12,6 @@ require("./modules/admin/admin.model");
 require("./modules/event/event.model");
 require("./modules/booking/booking.model");
 
-sequelize.sync({ alter: true });
 const adminRoutes = require("./modules/admin/admin.routes");
 const organizerRoutes = require("./modules/organizer/organizer.routes");
 const attenderRoutes = require("./modules/attender/attender.routes");
@@ -44,5 +43,13 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
 
-  await connectDB();
+  const dbConnected = await connectDB();
+  if (dbConnected) {
+    try {
+      await sequelize.sync({ alter: true });
+      console.log("✅ Database synced successfully");
+    } catch (err) {
+      console.error("❌ Database sync failed:", err);
+    }
+  }
 });
